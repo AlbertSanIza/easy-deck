@@ -17,13 +17,19 @@
     },
     "files.insertFinalNewline": true,
     "files.readonlyInclude": {
-        "**/bun.lock": true
+        "**/bun.lock": true,
+        "**/route-tree.gen.ts": true
     },
     "files.watcherExclude": {
-        "**/bun.lock": true
+        "**/bun.lock": true,
+        "**/route-tree.gen.ts": true
     },
     "git.autofetch": true,
     "git.confirmSync": false,
+    "search.exclude": {
+        "**/bun.lock": true,
+        "**/route-tree.gen.ts": true
+    },
     "tailwindCSS.classFunctions": ["clsx", "cn", "cva", "twMerge"],
     "workbench.iconTheme": "material-icon-theme"
 }
