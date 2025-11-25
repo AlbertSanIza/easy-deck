@@ -12,6 +12,7 @@
     "files.associations": {
         "*.css": "tailwindcss"
     },
+    "files.insertFinalNewline": true,
     "git.autofetch": true,
     "git.confirmSync": false,
     "workbench.iconTheme": "material-icon-theme"
