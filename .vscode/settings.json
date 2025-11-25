@@ -17,16 +17,19 @@
     },
     "files.insertFinalNewline": true,
     "files.readonlyInclude": {
+        ".github/instructions/convex.instructions.md": true,
         "**/bun.lock": true,
         "**/route-tree.gen.ts": true
     },
     "files.watcherExclude": {
+        ".github/instructions/convex.instructions.md": true,
         "**/bun.lock": true,
         "**/route-tree.gen.ts": true
     },
     "git.autofetch": true,
     "git.confirmSync": false,
     "search.exclude": {
+        ".github/instructions/convex.instructions.md": true,
         "**/bun.lock": true,
         "**/route-tree.gen.ts": true
     },
