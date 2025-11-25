@@ -11,13 +11,11 @@ function RouteComponent() {
     const tasks = useQuery(api.tasks.get)
 
     return (
-        <div className="fixed inset-0 flex items-center justify-center bg-pink-200 text-9xl">
-            <div>Hello, World!</div>
-            <div>
-                {tasks?.map(({ _id, text }) => (
-                    <div key={_id}>{text}</div>
-                ))}
-            </div>
+        <div className="fixed inset-0 flex flex-col items-center justify-center bg-pink-200">
+            <div className="text-2xl font-bold">Hello, World!</div>
+            {tasks?.map(({ _id, text }) => (
+                <div key={_id}>{text}</div>
+            ))}
         </div>
     )
 }
