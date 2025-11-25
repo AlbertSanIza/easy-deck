@@ -24,5 +24,6 @@
     },
     "git.autofetch": true,
     "git.confirmSync": false,
+    "tailwindCSS.classFunctions": ["clsx", "cn", "cva", "twMerge"],
     "workbench.iconTheme": "material-icon-theme"
 }
