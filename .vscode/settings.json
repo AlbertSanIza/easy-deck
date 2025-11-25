@@ -16,6 +16,12 @@
         "*.css": "tailwindcss"
     },
     "files.insertFinalNewline": true,
+    "files.readonlyInclude": {
+        "**/bun.lock": true
+    },
+    "files.watcherExclude": {
+        "**/bun.lock": true
+    },
     "git.autofetch": true,
     "git.confirmSync": false,
     "workbench.iconTheme": "material-icon-theme"
