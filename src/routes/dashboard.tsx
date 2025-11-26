@@ -20,6 +20,13 @@ function RouteComponent() {
             <AuthLoading>
                 <div className="fixed inset-0 flex items-center justify-center">Loading...</div>
             </AuthLoading>
+            <Unauthenticated>
+                <div className="fixed inset-0 flex items-center justify-center">
+                    <Button asChild>
+                        <SignInButton />
+                    </Button>
+                </div>
+            </Unauthenticated>
                     <Content />
                 </Authenticated>
                 <AuthLoading>
