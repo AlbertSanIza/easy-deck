@@ -19,35 +19,11 @@ export const Route = createFileRoute('/dashboard')({
 function RouteComponent() {
     const navigate = useNavigate()
     const [input, setInput] = useState('')
+    const decks = useQuery(api.decks.list)
     const createDeck = useMutation(api.decks.create)
-    const [isLinking, setIsLinking] = useState(false)
     const getToken = useQuery(api.googleSlides.getToken)
     const syncSlides = useAction(api.googleSlides.syncSlides)
     const linkPresentation = useAction(api.googleSlides.linkExistingPresentation)
-
-    const handleImportDeck = async () => {
-        const presentationId = extractPresentationId(input.trim())
-        if (!presentationId) {
-            alert('Invalid Google Slides URL or ID. Please provide a valid Google Slides presentation URL or ID.')
-            return
-        }
-        setIsLinking(true)
-        try {
-            if (!getToken || getToken.expiresAt < Date.now()) {
-                initiateGoogleAuth()
-                return
-            }
-            const presentation = await linkPresentation({ presentationId })
-            const deckId = await createDeck({ name: presentation.title || 'Imported Deck', googleSlidesId: presentationId })
-            await syncSlides({ deckId, presentationId })
-            navigate({ to: '/deck/$deckId', params: { deckId } })
-        } catch (error: unknown) {
-            const msg = error instanceof Error ? error.message : 'Unknown error'
-            alert(`Failed to import deck: ${msg}`)
-        } finally {
-            setIsLinking(false)
-        }
-    }
 
     return (
         <>
@@ -94,6 +70,34 @@ function RouteComponent() {
                                         <DialogClose asChild>
                                             <Button variant="outline">Cancel</Button>
                                         </DialogClose>
+                                        <Button
+                                            onClick={async () => {
+                                                const presentationId = extractPresentationId(input.trim())
+                                                if (!presentationId) {
+                                                    alert('Invalid Google Slides URL or ID. Please provide a valid Google Slides presentation URL or ID.')
+                                                    return
+                                                }
+                                                try {
+                                                    if (!getToken || getToken.expiresAt < Date.now()) {
+                                                        initiateGoogleAuth()
+                                                        return
+                                                    }
+                                                    const presentation = await linkPresentation({ presentationId })
+                                                    const deckId = await createDeck({
+                                                        name: presentation.title || 'Imported Deck',
+                                                        googleSlidesId: presentationId
+                                                    })
+                                                    await syncSlides({ deckId, presentationId })
+                                                    navigate({ to: '/deck/$deckId', params: { deckId } })
+                                                } catch (error: unknown) {
+                                                    const msg = error instanceof Error ? error.message : 'Unknown error'
+                                                    alert(`Failed to import deck: ${msg}`)
+                                                }
+                                            }}
+                                            disabled={!input.trim()}
+                                        >
+                                            Import
+                                        </Button>
                                     </DialogFooter>
                                 </DialogContent>
                             </Dialog>
@@ -129,21 +133,39 @@ function RouteComponent() {
                     </div>
                 </div>
                 <div className="p-6">
-                    <Content />
+                    {decks === undefined ? (
+                        <div className="text-center text-muted-foreground">Loading decks...</div>
+                    ) : decks.length === 0 ? (
+                        <Card>
+                            <CardContent className="py-12 text-center">
+                                <p className="text-muted-foreground">No decks yet. Create your first deck to get started!</p>
+                            </CardContent>
+                        </Card>
+                    ) : (
+                        <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
+                            {decks.map((deck: { _id: string; name: string; description?: string; googleSlidesId?: string }) => (
+                                <Link key={deck._id} to="/deck/$deckId" params={{ deckId: deck._id }}>
+                                    <Card className="cursor-pointer transition-shadow hover:shadow-lg">
+                                        <CardHeader>
+                                            <CardTitle>{deck.name}</CardTitle>
+                                            {deck.description && <CardDescription>{deck.description}</CardDescription>}
+                                        </CardHeader>
+                                        <CardContent>
+                                            <div className="text-sm text-muted-foreground">
+                                                {deck.googleSlidesId ? (
+                                                    <span className="text-green-600">Connected to Google Slides</span>
+                                                ) : (
+                                                    <span>Not connected</span>
+                                                )}
+                                            </div>
+                                        </CardContent>
+                                    </Card>
+                                </Link>
+                            ))}
+                        </div>
+                    )}
                 </div>
             </Authenticated>
         </>
-    )
-}
-
-function Content() {
-    const tasks = useQuery(api.tasks.get)
-
-    return (
-        <div>
-            {tasks?.map(({ _id, text }) => (
-                <div key={_id}>{text}</div>
-            ))}
-        </div>
     )
 }
