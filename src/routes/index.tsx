@@ -1,4 +1,5 @@
-import { createFileRoute, Link } from '@tanstack/react-router'
+import { SignInButton } from '@clerk/clerk-react'
+import { createFileRoute } from '@tanstack/react-router'
 
 import { Button } from '@/components/ui/button'
 
@@ -11,7 +12,7 @@ function RouteComponent() {
         <div className="fixed inset-0 flex flex-col items-center justify-center gap-6 p-6 text-8xl">
             <div>EASY DECK</div>
             <Button asChild>
-                <Link to="/dashboard">Get Started!</Link>
+                <SignInButton />
             </Button>
         </div>
     )
