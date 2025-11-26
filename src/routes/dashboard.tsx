@@ -37,8 +37,32 @@ function RouteComponent() {
                     </div>
                     <div className="flex items-center gap-6">
                         <div className="flex gap-3">
-                            <Button variant="outline">Import</Button>
-                            <Button>New Deck</Button>
+                            <Dialog onOpenChange={() => setInput('')}>
+                                <DialogTrigger asChild>
+                                    <Button>
+                                        <Plus className="size-4" />
+                                        New Deck
+                                    </Button>
+                                </DialogTrigger>
+                                <DialogContent>
+                                    <DialogHeader>
+                                        <DialogTitle>Create New Deck</DialogTitle>
+                                        <DialogDescription>Enter a title for your new presentation deck</DialogDescription>
+                                    </DialogHeader>
+                                    <Input placeholder="Deck title..." value={input} onChange={(event) => setInput(event.target.value)} autoFocus />
+                                    <DialogFooter>
+                                        <DialogClose asChild>
+                                            <Button variant="outline">Cancel</Button>
+                                        </DialogClose>
+                                        <DialogClose asChild>
+                                            <Button disabled={!input.trim()} onClick={() => createDeck({ name: input.trim() })}>
+                                                Create
+                                            </Button>
+                                        </DialogClose>
+                                    </DialogFooter>
+                                </DialogContent>
+                            </Dialog>
+                        </div>
                         <div className="size-7 rounded-full bg-muted-foreground">
                             <UserButton />
                         </div>
