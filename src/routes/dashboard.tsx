@@ -17,6 +17,8 @@ export const Route = createFileRoute('/dashboard')({
 })
 
 function RouteComponent() {
+    const [input, setInput] = useState('')
+    const createDeck = useMutation(api.decks.create)
     return (
         <>
             <AuthLoading>
