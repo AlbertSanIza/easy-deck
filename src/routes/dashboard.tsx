@@ -42,6 +42,27 @@ function RouteComponent() {
                         <div className="flex gap-3">
                             <Dialog onOpenChange={() => setInput('')}>
                                 <DialogTrigger asChild>
+                                    <Button variant="outline">
+                                        <Download className="size-4" />
+                                        Import
+                                    </Button>
+                                </DialogTrigger>
+                                <DialogContent>
+                                    <DialogHeader>
+                                        <DialogTitle>Import Existing Google Slides Deck</DialogTitle>
+                                        <DialogDescription>
+                                            Paste a Google Slides URL or presentation ID to import an existing deck. Make sure you have edit access to the
+                                            presentation. The deck will be synced with your Google Slides presentation.
+                                        </DialogDescription>
+                                    <DialogFooter>
+                                        <DialogClose asChild>
+                                            <Button variant="outline">Cancel</Button>
+                                        </DialogClose>
+                                    </DialogFooter>
+                                </DialogContent>
+                            </Dialog>
+                            <Dialog onOpenChange={() => setInput('')}>
+                                <DialogTrigger asChild>
                                     <Button>
                                         <Plus className="size-4" />
                                         New Deck
