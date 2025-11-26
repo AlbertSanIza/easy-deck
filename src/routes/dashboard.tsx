@@ -11,12 +11,6 @@ export const Route = createFileRoute('/dashboard')({
 function RouteComponent() {
     return (
         <>
-            <main>
-                <Unauthenticated>
-                    <SignInButton />
-                </Unauthenticated>
-                <Authenticated>
-                    <UserButton />
             <AuthLoading>
                 <div className="fixed inset-0 flex items-center justify-center">Loading...</div>
             </AuthLoading>
@@ -27,12 +21,24 @@ function RouteComponent() {
                     </Button>
                 </div>
             </Unauthenticated>
+            <Authenticated>
+                <div className="flex items-center justify-between gap-6 border-b px-6 py-2">
+                    <div>
+                        <h1 className="text-3xl font-semibold">My Decks</h1>
+                        <div className="text-muted-foreground">Create and manage your Google Slides presentations</div>
+                    </div>
+                    <div className="flex items-center gap-6">
+                        <div className="flex gap-3">
+                            <Button variant="outline">Import</Button>
+                            <Button>New Deck</Button>
+                        </div>
+                        <UserButton />
+                    </div>
+                </div>
+                <div className="p-6">
                     <Content />
-                </Authenticated>
-                <AuthLoading>
-                    <p>LOADING...</p>
-                </AuthLoading>
-            </main>
+                </div>
+            </Authenticated>
         </>
     )
 }
