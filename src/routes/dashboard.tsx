@@ -6,7 +6,7 @@ import { useState } from 'react'
 
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
-import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog'
+import { Dialog, DialogClose, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog'
 import { Input } from '@/components/ui/input'
 import { api } from '@/convex/_generated/api'
 import { initiateGoogleAuth } from '@/lib/googleAuth'
@@ -17,8 +17,37 @@ export const Route = createFileRoute('/dashboard')({
 })
 
 function RouteComponent() {
+    const navigate = useNavigate()
     const [input, setInput] = useState('')
     const createDeck = useMutation(api.decks.create)
+    const [isLinking, setIsLinking] = useState(false)
+    const getToken = useQuery(api.googleSlides.getToken)
+    const syncSlides = useAction(api.googleSlides.syncSlides)
+    const linkPresentation = useAction(api.googleSlides.linkExistingPresentation)
+
+    const handleImportDeck = async () => {
+        const presentationId = extractPresentationId(input.trim())
+        if (!presentationId) {
+            alert('Invalid Google Slides URL or ID. Please provide a valid Google Slides presentation URL or ID.')
+            return
+        }
+        setIsLinking(true)
+        try {
+            if (!getToken || getToken.expiresAt < Date.now()) {
+                initiateGoogleAuth()
+                return
+            }
+            const presentation = await linkPresentation({ presentationId })
+            const deckId = await createDeck({ name: presentation.title || 'Imported Deck', googleSlidesId: presentationId })
+            await syncSlides({ deckId, presentationId })
+            navigate({ to: '/deck/$deckId', params: { deckId } })
+        } catch (error: unknown) {
+            const msg = error instanceof Error ? error.message : 'Unknown error'
+            alert(`Failed to import deck: ${msg}`)
+        } finally {
+            setIsLinking(false)
+        }
+    }
 
     return (
         <>
