@@ -7,7 +7,7 @@ import { createRoot } from 'react-dom/client'
 
 import '@/index.css'
 import { routeTree } from '@/lib/route-tree.gen'
-import { VITE_CLERK_PUBLISHABLE_KEY, VITE_CONVEX_URL } from '@/lib/utils'
+import { VITE_CLERK_PUBLISHABLE_KEY, VITE_CLERK_SIGN_IN_FORCE_REDIRECT_URL, VITE_CONVEX_URL } from '@/lib/utils'
 
 const convex = new ConvexReactClient(VITE_CONVEX_URL)
 const router = createRouter({ routeTree })
@@ -20,7 +20,7 @@ declare module '@tanstack/react-router' {
 
 createRoot(document.getElementById('root')!).render(
     <StrictMode>
-        <ClerkProvider publishableKey={VITE_CLERK_PUBLISHABLE_KEY}>
+        <ClerkProvider publishableKey={VITE_CLERK_PUBLISHABLE_KEY} signInForceRedirectUrl={VITE_CLERK_SIGN_IN_FORCE_REDIRECT_URL}>
             <ConvexProviderWithClerk client={convex} useAuth={useAuth}>
                 <RouterProvider router={router} />
             </ConvexProviderWithClerk>

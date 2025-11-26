@@ -13,6 +13,7 @@ if (!import.meta.env.VITE_CLERK_SIGN_IN_FORCE_REDIRECT_URL) {
 
 export const VITE_CLERK_PUBLISHABLE_KEY: string = import.meta.env.VITE_CLERK_PUBLISHABLE_KEY
 export const VITE_CONVEX_URL: string = import.meta.env.VITE_CONVEX_URL
+export const VITE_CLERK_SIGN_IN_FORCE_REDIRECT_URL: string = import.meta.env.VITE_CLERK_SIGN_IN_FORCE_REDIRECT_URL
 
 export function cn(...inputs: ClassValue[]) {
     return twMerge(clsx(inputs))
