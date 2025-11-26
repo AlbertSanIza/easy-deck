@@ -39,8 +39,9 @@ function RouteComponent() {
                         <div className="flex gap-3">
                             <Button variant="outline">Import</Button>
                             <Button>New Deck</Button>
+                        <div className="size-7 rounded-full bg-muted-foreground">
+                            <UserButton />
                         </div>
-                        <UserButton />
                     </div>
                 </div>
                 <div className="p-6">
