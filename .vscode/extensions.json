@@ -2,6 +2,7 @@
     "recommendations": [
         "anthropic.claude-code",
         "bradlc.vscode-tailwindcss",
+        "chakrounanas.turbo-console-log",
         "dbaeumer.vscode-eslint",
         "eamodio.gitlens",
         "esbenp.prettier-vscode",
