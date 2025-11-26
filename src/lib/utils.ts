@@ -10,10 +10,14 @@ if (!import.meta.env.VITE_CONVEX_URL) {
 if (!import.meta.env.VITE_CLERK_SIGN_IN_FORCE_REDIRECT_URL) {
     throw new Error('Missing Clerk Sign In Force Redirect URL')
 }
+if (!import.meta.env.VITE_CLERK_SIGN_UP_FORCE_REDIRECT_URL) {
+    throw new Error('Missing Clerk Sign Up Force Redirect URL')
+}
 
 export const VITE_CLERK_PUBLISHABLE_KEY: string = import.meta.env.VITE_CLERK_PUBLISHABLE_KEY
 export const VITE_CONVEX_URL: string = import.meta.env.VITE_CONVEX_URL
 export const VITE_CLERK_SIGN_IN_FORCE_REDIRECT_URL: string = import.meta.env.VITE_CLERK_SIGN_IN_FORCE_REDIRECT_URL
+export const VITE_CLERK_SIGN_UP_FORCE_REDIRECT_URL: string = import.meta.env.VITE_CLERK_SIGN_UP_FORCE_REDIRECT_URL
 
 export function cn(...inputs: ClassValue[]) {
     return twMerge(clsx(inputs))
