@@ -17,6 +17,9 @@ function RouteComponent() {
                 </Unauthenticated>
                 <Authenticated>
                     <UserButton />
+            <AuthLoading>
+                <div className="fixed inset-0 flex items-center justify-center">Loading...</div>
+            </AuthLoading>
                     <Content />
                 </Authenticated>
                 <AuthLoading>
