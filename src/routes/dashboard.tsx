@@ -19,7 +19,6 @@ export const Route = createFileRoute('/dashboard')({
 function RouteComponent() {
     const navigate = useNavigate()
     const [input, setInput] = useState('')
-    const decks = useQuery(api.decks.list)
     const createDeck = useMutation(api.decks.create)
     const getToken = useQuery(api.googleSlides.getToken)
     const syncSlides = useAction(api.googleSlides.syncSlides)
@@ -133,39 +132,40 @@ function RouteComponent() {
                     </div>
                 </div>
                 <div className="p-6">
-                    {decks === undefined ? (
-                        <div className="text-center text-muted-foreground">Loading decks...</div>
-                    ) : decks.length === 0 ? (
-                        <Card>
-                            <CardContent className="py-12 text-center">
-                                <p className="text-muted-foreground">No decks yet. Create your first deck to get started!</p>
-                            </CardContent>
-                        </Card>
-                    ) : (
-                        <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
-                            {decks.map((deck: { _id: string; name: string; description?: string; googleSlidesId?: string }) => (
-                                <Link key={deck._id} to="/deck/$id" params={{ id: deck._id }}>
-                                    <Card className="cursor-pointer transition-shadow hover:shadow-lg">
-                                        <CardHeader>
-                                            <CardTitle>{deck.name}</CardTitle>
-                                            {deck.description && <CardDescription>{deck.description}</CardDescription>}
-                                        </CardHeader>
-                                        <CardContent>
-                                            <div className="text-sm text-muted-foreground">
-                                                {deck.googleSlidesId ? (
-                                                    <span className="text-green-600">Connected to Google Slides</span>
-                                                ) : (
-                                                    <span>Not connected</span>
-                                                )}
-                                            </div>
-                                        </CardContent>
-                                    </Card>
-                                </Link>
-                            ))}
-                        </div>
-                    )}
+                    <Decks />
                 </div>
             </Authenticated>
         </>
+    )
+}
+
+function Decks() {
+    const decks = useQuery(api.decks.list)
+    return decks === undefined ? (
+        <div className="text-center text-muted-foreground">Loading decks...</div>
+    ) : decks.length === 0 ? (
+        <Card>
+            <CardContent className="py-12 text-center">
+                <p className="text-muted-foreground">No decks yet. Create your first deck to get started!</p>
+            </CardContent>
+        </Card>
+    ) : (
+        <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
+            {decks.map((deck: { _id: string; name: string; description?: string; googleSlidesId?: string }) => (
+                <Link key={deck._id} to="/deck/$id" params={{ id: deck._id }}>
+                    <Card className="cursor-pointer transition-shadow hover:shadow-lg">
+                        <CardHeader>
+                            <CardTitle>{deck.name}</CardTitle>
+                            {deck.description && <CardDescription>{deck.description}</CardDescription>}
+                        </CardHeader>
+                        <CardContent>
+                            <div className="text-sm text-muted-foreground">
+                                {deck.googleSlidesId ? <span className="text-green-600">Connected to Google Slides</span> : <span>Not connected</span>}
+                            </div>
+                        </CardContent>
+                    </Card>
+                </Link>
+            ))}
+        </div>
     )
 }
