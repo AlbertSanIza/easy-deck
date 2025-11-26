@@ -34,16 +34,15 @@ export const list = query({
 export const create = mutation({
     args: {
         name: v.string(),
-        description: v.optional(v.string()),
         googleSlidesId: v.optional(v.string())
     },
-    handler: async (ctx, { name, description, googleSlidesId }) => {
+    handler: async (ctx, { name, googleSlidesId }) => {
         const identity = await ctx.auth.getUserIdentity()
         if (identity === null) {
             throw new Error('Not authenticated')
         }
         const now = Date.now()
-        return await ctx.db.insert('decks', { name, description, googleSlidesId, userId: identity.subject, updatedAt: now })
+        return await ctx.db.insert('decks', { name, googleSlidesId, userId: identity.subject, updatedAt: now })
     }
 })
 

@@ -5,7 +5,6 @@ export default defineSchema({
     decks: defineTable({
         userId: v.string(),
         name: v.string(),
-        description: v.optional(v.string()),
         googleSlidesId: v.optional(v.string()),
         updatedAt: v.number()
     })
