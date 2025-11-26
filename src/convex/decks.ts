@@ -16,3 +16,18 @@ export const list = query({
     }
 })
 
+export const get = query({
+    args: { deckId: v.id('decks') },
+    handler: async (ctx, { deckId }) => {
+        const identity = await ctx.auth.getUserIdentity()
+        if (identity === null) {
+            throw new Error('Not authenticated')
+        }
+        const deck = await ctx.db.get(deckId)
+        if (!deck || deck.userId !== identity.subject) {
+            return null
+        }
+        return deck
+    }
+})
+
