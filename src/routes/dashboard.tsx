@@ -88,7 +88,7 @@ function RouteComponent() {
                                                         googleSlidesId: presentationId
                                                     })
                                                     await syncSlides({ deckId, presentationId })
-                                                    navigate({ to: '/deck/$deckId', params: { deckId } })
+                                                    navigate({ to: '/deck/$id', params: { id: deckId } })
                                                 } catch (error: unknown) {
                                                     const msg = error instanceof Error ? error.message : 'Unknown error'
                                                     alert(`Failed to import deck: ${msg}`)
@@ -144,7 +144,7 @@ function RouteComponent() {
                     ) : (
                         <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
                             {decks.map((deck: { _id: string; name: string; description?: string; googleSlidesId?: string }) => (
-                                <Link key={deck._id} to="/deck/$deckId" params={{ deckId: deck._id }}>
+                                <Link key={deck._id} to="/deck/$id" params={{ id: deck._id }}>
                                     <Card className="cursor-pointer transition-shadow hover:shadow-lg">
                                         <CardHeader>
                                             <CardTitle>{deck.name}</CardTitle>
