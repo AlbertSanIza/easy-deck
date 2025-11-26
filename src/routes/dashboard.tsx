@@ -54,6 +54,13 @@ function RouteComponent() {
                                             Paste a Google Slides URL or presentation ID to import an existing deck. Make sure you have edit access to the
                                             presentation. The deck will be synced with your Google Slides presentation.
                                         </DialogDescription>
+                                    </DialogHeader>
+                                    <Input
+                                        placeholder="https://docs.google.com/presentation/d/... or presentation ID"
+                                        value={input}
+                                        onChange={(event) => setInput(event.target.value)}
+                                        autoFocus
+                                    />
                                     <DialogFooter>
                                         <DialogClose asChild>
                                             <Button variant="outline">Cancel</Button>
