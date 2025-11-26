@@ -1,8 +1,16 @@
 import { SignInButton, UserButton } from '@clerk/clerk-react'
-import { createFileRoute } from '@tanstack/react-router'
-import { Authenticated, AuthLoading, Unauthenticated, useQuery } from 'convex/react'
+import { createFileRoute, Link, useNavigate } from '@tanstack/react-router'
+import { Authenticated, AuthLoading, Unauthenticated, useAction, useMutation, useQuery } from 'convex/react'
+import { Download, Plus } from 'lucide-react'
+import { useState } from 'react'
 
+import { Button } from '@/components/ui/button'
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
+import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog'
+import { Input } from '@/components/ui/input'
 import { api } from '@/convex/_generated/api'
+import { initiateGoogleAuth } from '@/lib/googleAuth'
+import { extractPresentationId } from '@/lib/googleSlidesUtils'
 
 export const Route = createFileRoute('/dashboard')({
     component: RouteComponent
