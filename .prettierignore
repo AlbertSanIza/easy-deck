@@ -1,4 +1,4 @@
-.github/instructions/convex/instructions.md
+.github/instructions/convex.instructions.md
 convex.json
 src/convex/_generated
 src/lib/route-tree.gen.ts
