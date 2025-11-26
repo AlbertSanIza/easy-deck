@@ -4,7 +4,7 @@ import { v } from 'convex/values'
 export default defineSchema({
     decks: defineTable({
         userId: v.string(),
-        title: v.string(),
+        name: v.string(),
         description: v.optional(v.string()),
         googleSlidesId: v.optional(v.string()),
         updatedAt: v.number()
