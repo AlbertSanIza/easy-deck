@@ -8,6 +8,7 @@ import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { Dialog, DialogClose, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog'
 import { Input } from '@/components/ui/input'
+import { Spinner } from '@/components/ui/spinner'
 import { api } from '@/convex/_generated/api'
 import { initiateGoogleAuth } from '@/lib/googleAuth'
 import { extractPresentationId } from '@/lib/googleSlidesUtils'
@@ -27,7 +28,9 @@ function RouteComponent() {
     return (
         <>
             <AuthLoading>
-                <div className="fixed inset-0 flex items-center justify-center">Loading...</div>
+                <div className="fixed inset-0 flex items-center justify-center">
+                    <Spinner />
+                </div>
             </AuthLoading>
             <Unauthenticated>
                 <div className="fixed inset-0 flex items-center justify-center">
