@@ -8,7 +8,10 @@
  * @module
  */
 
-import type * as tasks from "../tasks.js";
+import type * as ai from "../ai.js";
+import type * as decks from "../decks.js";
+import type * as googleSlides from "../googleSlides.js";
+import type * as slides from "../slides.js";
 
 import type {
   ApiFromModules,
@@ -17,7 +20,10 @@ import type {
 } from "convex/server";
 
 declare const fullApi: ApiFromModules<{
-  tasks: typeof tasks;
+  ai: typeof ai;
+  decks: typeof decks;
+  googleSlides: typeof googleSlides;
+  slides: typeof slides;
 }>;
 
 /**
