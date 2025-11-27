@@ -10,8 +10,8 @@ import { Dialog, DialogClose, DialogContent, DialogDescription, DialogFooter, Di
 import { Input } from '@/components/ui/input'
 import { Spinner } from '@/components/ui/spinner'
 import { api } from '@/convex/_generated/api'
-import { initiateGoogleAuth } from '@/lib/googleAuth'
-import { extractPresentationId } from '@/lib/googleSlidesUtils'
+import { initiateGoogleAuth } from '@/lib/google-auth'
+import { extractGoogleSlidesID } from '@/lib/utils'
 
 export const Route = createFileRoute('/dashboard')({
     component: RouteComponent
@@ -75,7 +75,7 @@ function RouteComponent() {
                                             </DialogClose>
                                             <Button
                                                 onClick={async () => {
-                                                    const presentationId = extractPresentationId(input.trim())
+                                                    const presentationId = extractGoogleSlidesID(input)
                                                     if (!presentationId) {
                                                         alert('Invalid Google Slides URL or ID. Please provide a valid Google Slides presentation URL or ID.')
                                                         return
