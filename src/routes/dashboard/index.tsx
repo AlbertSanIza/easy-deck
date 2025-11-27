@@ -13,7 +13,7 @@ import { api } from '@/convex/_generated/api'
 import { initiateGoogleAuth } from '@/lib/google-auth'
 import { extractGoogleSlidesID } from '@/lib/utils'
 
-export const Route = createFileRoute('/dashboard')({
+export const Route = createFileRoute('/dashboard/')({
     component: RouteComponent
 })
 
@@ -91,7 +91,7 @@ function RouteComponent() {
                                                             googleSlidesId: presentationId
                                                         })
                                                         await syncSlides({ deckId, presentationId })
-                                                        navigate({ to: '/deck/$id', params: { id: deckId } })
+                                                        navigate({ to: '/dashboard/$id', params: { id: deckId } })
                                                     } catch (error: unknown) {
                                                         const msg = error instanceof Error ? error.message : 'Unknown error'
                                                         alert(`Failed to import deck: ${msg}`)
@@ -153,7 +153,7 @@ function Decks() {
             {decks?.length === 0 && <div className="text-center text-muted-foreground">No decks found. Create or import a deck to get started.</div>}
             <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
                 {decks?.map((deck: { _id: string; name: string; description?: string; googleSlidesId?: string }) => (
-                    <Link to="/deck/$id" key={deck._id} params={{ id: deck._id }}>
+                    <Link to="/dashboard/$id" key={deck._id} params={{ id: deck._id }}>
                         <Card className="cursor-pointer transition-shadow hover:shadow-md">
                             <CardHeader>
                                 <CardTitle>{deck.name}</CardTitle>
