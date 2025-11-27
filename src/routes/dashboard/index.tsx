@@ -8,7 +8,7 @@ import { Button } from '@/components/ui/button'
 import { Card, CardHeader, CardTitle } from '@/components/ui/card'
 import { Dialog, DialogClose, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog'
 import { Input } from '@/components/ui/input'
-import { Spinner } from '@/components/ui/spinner'
+import { Skeleton } from '@/components/ui/skeleton'
 import { api } from '@/convex/_generated/api'
 import { initiateGoogleAuth } from '@/lib/google-auth'
 import { extractGoogleSlidesID } from '@/lib/utils'
@@ -137,13 +137,15 @@ function Decks() {
 
     return (
         <div className="mx-auto max-w-7xl">
-            {decks === undefined && (
-                <div className="flex justify-center">
-                    <Spinner />
-                </div>
-            )}
-            {decks?.length === 0 && <div className="text-center text-muted-foreground">No decks found. Create or import a deck to get started.</div>}
             <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
+                {decks === undefined && (
+                    <>
+                        <Skeleton className="h-18.5 shadow-sm" />
+                        <Skeleton className="h-18.5 shadow-sm" />
+                        <Skeleton className="h-18.5 shadow-sm" />
+                    </>
+                )}
+                {decks?.length === 0 && <div className="text-center text-muted-foreground">No decks found. Create or import a deck to get started.</div>}
                 {decks?.map((deck: { _id: string; name: string; description?: string; googleSlidesId?: string }) => (
                     <Link to="/dashboard/$id" key={deck._id} params={{ id: deck._id }}>
                         <Card className="cursor-pointer transition-shadow hover:shadow-md">
