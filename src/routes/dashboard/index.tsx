@@ -24,6 +24,7 @@ function RouteComponent() {
     const createDeck = useMutation(api.decks.create)
     const getToken = useQuery(api.googleSlides.getToken)
     const syncSlides = useAction(api.googleSlides.syncSlides)
+    const decks = useQuery(api.decks.list, isAuthenticated ? undefined : 'skip')
     const linkPresentation = useAction(api.googleSlides.linkExistingPresentation)
 
     return (
@@ -117,31 +118,20 @@ function RouteComponent() {
                 </TopBar>
             </div>
             <div className="p-6">
-                <Decks />
+                <div className="mx-auto grid max-w-7xl gap-4 md:grid-cols-2 lg:grid-cols-3">
+                    {decks === undefined && Array.from({ length: 2 }).map((_, i) => <Skeleton key={i} className="h-18.5 rounded-xl shadow-sm" />)}
+                    {decks?.length === 0 && <div className="text-center text-muted-foreground">No decks found. Create or import a deck to get started.</div>}
+                    {decks?.map((deck: { _id: string; name: string; description?: string; googleSlidesId?: string }) => (
+                        <Link to="/dashboard/$id" key={deck._id} params={{ id: deck._id }}>
+                            <Card className="cursor-pointer transition-shadow hover:shadow-md">
+                                <CardHeader>
+                                    <CardTitle>{deck.name}</CardTitle>
+                                </CardHeader>
+                            </Card>
+                        </Link>
+                    ))}
+                </div>
             </div>
         </>
-    )
-}
-
-function Decks() {
-    const { isAuthenticated } = useConvexAuth()
-    const decks = useQuery(api.decks.list, isAuthenticated ? undefined : 'skip')
-
-    return (
-        <div className="mx-auto max-w-7xl">
-            <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
-                {decks === undefined && Array.from({ length: 2 }).map((_, i) => <Skeleton key={i} className="h-18.5 rounded-xl shadow-sm" />)}
-                {decks?.length === 0 && <div className="text-center text-muted-foreground">No decks found. Create or import a deck to get started.</div>}
-                {decks?.map((deck: { _id: string; name: string; description?: string; googleSlidesId?: string }) => (
-                    <Link to="/dashboard/$id" key={deck._id} params={{ id: deck._id }}>
-                        <Card className="cursor-pointer transition-shadow hover:shadow-md">
-                            <CardHeader>
-                                <CardTitle>{deck.name}</CardTitle>
-                            </CardHeader>
-                        </Card>
-                    </Link>
-                ))}
-            </div>
-        </div>
     )
 }
