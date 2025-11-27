@@ -11,7 +11,7 @@
 import { Route as rootRouteImport } from './../routes/__root'
 import { Route as IndexRouteImport } from './../routes/index'
 import { Route as DashboardIndexRouteImport } from './../routes/dashboard/index'
-import { Route as SomeDeckIdRouteImport } from './../routes/some-deck.$id'
+import { Route as DeckIdRouteImport } from './../routes/deck.$id'
 import { Route as DashboardIdRouteImport } from './../routes/dashboard/$id'
 import { Route as AuthGoogleCallbackRouteImport } from './../routes/auth.google.callback'
 
@@ -25,9 +25,9 @@ const DashboardIndexRoute = DashboardIndexRouteImport.update({
   path: '/dashboard/',
   getParentRoute: () => rootRouteImport,
 } as any)
-const SomeDeckIdRoute = SomeDeckIdRouteImport.update({
-  id: '/some-deck/$id',
-  path: '/some-deck/$id',
+const DeckIdRoute = DeckIdRouteImport.update({
+  id: '/deck/$id',
+  path: '/deck/$id',
   getParentRoute: () => rootRouteImport,
 } as any)
 const DashboardIdRoute = DashboardIdRouteImport.update({
@@ -44,14 +44,14 @@ const AuthGoogleCallbackRoute = AuthGoogleCallbackRouteImport.update({
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/dashboard/$id': typeof DashboardIdRoute
-  '/some-deck/$id': typeof SomeDeckIdRoute
+  '/deck/$id': typeof DeckIdRoute
   '/dashboard': typeof DashboardIndexRoute
   '/auth/google/callback': typeof AuthGoogleCallbackRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/dashboard/$id': typeof DashboardIdRoute
-  '/some-deck/$id': typeof SomeDeckIdRoute
+  '/deck/$id': typeof DeckIdRoute
   '/dashboard': typeof DashboardIndexRoute
   '/auth/google/callback': typeof AuthGoogleCallbackRoute
 }
@@ -59,7 +59,7 @@ export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/dashboard/$id': typeof DashboardIdRoute
-  '/some-deck/$id': typeof SomeDeckIdRoute
+  '/deck/$id': typeof DeckIdRoute
   '/dashboard/': typeof DashboardIndexRoute
   '/auth/google/callback': typeof AuthGoogleCallbackRoute
 }
@@ -68,21 +68,21 @@ export interface FileRouteTypes {
   fullPaths:
     | '/'
     | '/dashboard/$id'
-    | '/some-deck/$id'
+    | '/deck/$id'
     | '/dashboard'
     | '/auth/google/callback'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
     | '/dashboard/$id'
-    | '/some-deck/$id'
+    | '/deck/$id'
     | '/dashboard'
     | '/auth/google/callback'
   id:
     | '__root__'
     | '/'
     | '/dashboard/$id'
-    | '/some-deck/$id'
+    | '/deck/$id'
     | '/dashboard/'
     | '/auth/google/callback'
   fileRoutesById: FileRoutesById
@@ -90,7 +90,7 @@ export interface FileRouteTypes {
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   DashboardIdRoute: typeof DashboardIdRoute
-  SomeDeckIdRoute: typeof SomeDeckIdRoute
+  DeckIdRoute: typeof DeckIdRoute
   DashboardIndexRoute: typeof DashboardIndexRoute
   AuthGoogleCallbackRoute: typeof AuthGoogleCallbackRoute
 }
@@ -111,11 +111,11 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof DashboardIndexRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/some-deck/$id': {
-      id: '/some-deck/$id'
-      path: '/some-deck/$id'
-      fullPath: '/some-deck/$id'
-      preLoaderRoute: typeof SomeDeckIdRouteImport
+    '/deck/$id': {
+      id: '/deck/$id'
+      path: '/deck/$id'
+      fullPath: '/deck/$id'
+      preLoaderRoute: typeof DeckIdRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/dashboard/$id': {
@@ -138,7 +138,7 @@ declare module '@tanstack/react-router' {
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   DashboardIdRoute: DashboardIdRoute,
-  SomeDeckIdRoute: SomeDeckIdRoute,
+  DeckIdRoute: DeckIdRoute,
   DashboardIndexRoute: DashboardIndexRoute,
   AuthGoogleCallbackRoute: AuthGoogleCallbackRoute,
 }
