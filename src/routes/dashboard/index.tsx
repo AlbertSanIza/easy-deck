@@ -1,6 +1,6 @@
 import { createFileRoute, Link, useNavigate } from '@tanstack/react-router'
 import { useAction, useConvexAuth, useMutation, useQuery } from 'convex/react'
-import { Download, Plus } from 'lucide-react'
+import { DownloadIcon, PlusIcon } from 'lucide-react'
 import { useState } from 'react'
 
 import { TopBar } from '@/components/TobBar'
@@ -36,7 +36,7 @@ function RouteComponent() {
                         <Dialog onOpenChange={() => setInput('')}>
                             <DialogTrigger disabled={!isAuthenticated} asChild>
                                 <Button variant="outline">
-                                    <Download className="size-4" />
+                                    <DownloadIcon className="size-4" />
                                     Import
                                 </Button>
                             </DialogTrigger>
@@ -92,7 +92,7 @@ function RouteComponent() {
                         <Dialog onOpenChange={() => setInput('')}>
                             <DialogTrigger disabled={!isAuthenticated} asChild>
                                 <Button>
-                                    <Plus className="size-4" />
+                                    <PlusIcon className="size-4" />
                                     New Deck
                                 </Button>
                             </DialogTrigger>
