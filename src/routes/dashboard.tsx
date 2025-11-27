@@ -40,7 +40,7 @@ function RouteComponent() {
                 </div>
             </Unauthenticated>
             <Authenticated>
-                <div className="flex items-center justify-between gap-6 border-b px-6 py-2">
+                <div className="sticky top-0 flex items-center justify-between gap-6 border-b bg-white px-6 py-2">
                     <div>
                         <h1 className="text-3xl font-semibold">My Decks</h1>
                         <div className="text-muted-foreground">Create and manage your Google Slides presentations</div>
