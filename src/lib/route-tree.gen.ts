@@ -9,24 +9,30 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './../routes/__root'
-import { Route as DashboardRouteImport } from './../routes/dashboard'
 import { Route as IndexRouteImport } from './../routes/index'
-import { Route as DeckIdRouteImport } from './../routes/deck.$id'
+import { Route as DashboardIndexRouteImport } from './../routes/dashboard/index'
+import { Route as SomeDeckIdRouteImport } from './../routes/some-deck.$id'
+import { Route as DashboardIdRouteImport } from './../routes/dashboard/$id'
 import { Route as AuthGoogleCallbackRouteImport } from './../routes/auth.google.callback'
 
-const DashboardRoute = DashboardRouteImport.update({
-  id: '/dashboard',
-  path: '/dashboard',
-  getParentRoute: () => rootRouteImport,
-} as any)
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
-const DeckIdRoute = DeckIdRouteImport.update({
-  id: '/deck/$id',
-  path: '/deck/$id',
+const DashboardIndexRoute = DashboardIndexRouteImport.update({
+  id: '/dashboard/',
+  path: '/dashboard/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const SomeDeckIdRoute = SomeDeckIdRouteImport.update({
+  id: '/some-deck/$id',
+  path: '/some-deck/$id',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const DashboardIdRoute = DashboardIdRouteImport.update({
+  id: '/dashboard/$id',
+  path: '/dashboard/$id',
   getParentRoute: () => rootRouteImport,
 } as any)
 const AuthGoogleCallbackRoute = AuthGoogleCallbackRouteImport.update({
@@ -37,47 +43,60 @@ const AuthGoogleCallbackRoute = AuthGoogleCallbackRouteImport.update({
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
-  '/dashboard': typeof DashboardRoute
-  '/deck/$id': typeof DeckIdRoute
+  '/dashboard/$id': typeof DashboardIdRoute
+  '/some-deck/$id': typeof SomeDeckIdRoute
+  '/dashboard': typeof DashboardIndexRoute
   '/auth/google/callback': typeof AuthGoogleCallbackRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
-  '/dashboard': typeof DashboardRoute
-  '/deck/$id': typeof DeckIdRoute
+  '/dashboard/$id': typeof DashboardIdRoute
+  '/some-deck/$id': typeof SomeDeckIdRoute
+  '/dashboard': typeof DashboardIndexRoute
   '/auth/google/callback': typeof AuthGoogleCallbackRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
-  '/dashboard': typeof DashboardRoute
-  '/deck/$id': typeof DeckIdRoute
+  '/dashboard/$id': typeof DashboardIdRoute
+  '/some-deck/$id': typeof SomeDeckIdRoute
+  '/dashboard/': typeof DashboardIndexRoute
   '/auth/google/callback': typeof AuthGoogleCallbackRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/dashboard' | '/deck/$id' | '/auth/google/callback'
+  fullPaths:
+    | '/'
+    | '/dashboard/$id'
+    | '/some-deck/$id'
+    | '/dashboard'
+    | '/auth/google/callback'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/dashboard' | '/deck/$id' | '/auth/google/callback'
-  id: '__root__' | '/' | '/dashboard' | '/deck/$id' | '/auth/google/callback'
+  to:
+    | '/'
+    | '/dashboard/$id'
+    | '/some-deck/$id'
+    | '/dashboard'
+    | '/auth/google/callback'
+  id:
+    | '__root__'
+    | '/'
+    | '/dashboard/$id'
+    | '/some-deck/$id'
+    | '/dashboard/'
+    | '/auth/google/callback'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
-  DashboardRoute: typeof DashboardRoute
-  DeckIdRoute: typeof DeckIdRoute
+  DashboardIdRoute: typeof DashboardIdRoute
+  SomeDeckIdRoute: typeof SomeDeckIdRoute
+  DashboardIndexRoute: typeof DashboardIndexRoute
   AuthGoogleCallbackRoute: typeof AuthGoogleCallbackRoute
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
-    '/dashboard': {
-      id: '/dashboard'
-      path: '/dashboard'
-      fullPath: '/dashboard'
-      preLoaderRoute: typeof DashboardRouteImport
-      parentRoute: typeof rootRouteImport
-    }
     '/': {
       id: '/'
       path: '/'
@@ -85,11 +104,25 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/deck/$id': {
-      id: '/deck/$id'
-      path: '/deck/$id'
-      fullPath: '/deck/$id'
-      preLoaderRoute: typeof DeckIdRouteImport
+    '/dashboard/': {
+      id: '/dashboard/'
+      path: '/dashboard'
+      fullPath: '/dashboard'
+      preLoaderRoute: typeof DashboardIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/some-deck/$id': {
+      id: '/some-deck/$id'
+      path: '/some-deck/$id'
+      fullPath: '/some-deck/$id'
+      preLoaderRoute: typeof SomeDeckIdRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/dashboard/$id': {
+      id: '/dashboard/$id'
+      path: '/dashboard/$id'
+      fullPath: '/dashboard/$id'
+      preLoaderRoute: typeof DashboardIdRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/auth/google/callback': {
@@ -104,8 +137,9 @@ declare module '@tanstack/react-router' {
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
-  DashboardRoute: DashboardRoute,
-  DeckIdRoute: DeckIdRoute,
+  DashboardIdRoute: DashboardIdRoute,
+  SomeDeckIdRoute: SomeDeckIdRoute,
+  DashboardIndexRoute: DashboardIndexRoute,
   AuthGoogleCallbackRoute: AuthGoogleCallbackRoute,
 }
 export const routeTree = rootRouteImport
