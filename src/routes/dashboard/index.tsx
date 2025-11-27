@@ -149,7 +149,11 @@ function Decks() {
 
     return (
         <div className="mx-auto max-w-7xl">
-            {decks === undefined && <div className="text-center text-muted-foreground">Loading decks...</div>}
+            {decks === undefined && (
+                <div className="flex justify-center">
+                    <Spinner />
+                </div>
+            )}
             {decks?.length === 0 && <div className="text-center text-muted-foreground">No decks found. Create or import a deck to get started.</div>}
             <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
                 {decks?.map((deck: { _id: string; name: string; description?: string; googleSlidesId?: string }) => (
