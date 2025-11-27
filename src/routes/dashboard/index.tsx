@@ -1,9 +1,9 @@
-import { UserButton } from '@clerk/clerk-react'
 import { createFileRoute, Link, useNavigate } from '@tanstack/react-router'
 import { useAction, useConvexAuth, useMutation, useQuery } from 'convex/react'
 import { Download, Plus } from 'lucide-react'
 import { useState } from 'react'
 
+import { TopBar } from '@/components/TobBar'
 import { Button } from '@/components/ui/button'
 import { Card, CardHeader, CardTitle } from '@/components/ui/card'
 import { Dialog, DialogClose, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog'
@@ -28,101 +28,93 @@ function RouteComponent() {
 
     return (
         <>
-            <div className="sticky top-0 border-b bg-white px-6 py-2">
-                <div className="mx-auto flex max-w-7xl items-center justify-between gap-6">
-                    <div>
-                        <h1 className="text-3xl font-semibold">My Decks</h1>
-                        <div className="text-muted-foreground">Create and manage your Google Slides presentations</div>
-                    </div>
-                    <div className="flex items-center gap-6">
-                        <div className="flex gap-3">
-                            <Dialog onOpenChange={() => setInput('')}>
-                                <DialogTrigger disabled={!isAuthenticated} asChild>
-                                    <Button variant="outline">
-                                        <Download className="size-4" />
-                                        Import
-                                    </Button>
-                                </DialogTrigger>
-                                <DialogContent>
-                                    <DialogHeader>
-                                        <DialogTitle>Import Existing Google Slides Deck</DialogTitle>
-                                        <DialogDescription>
-                                            Paste a Google Slides URL or presentation ID to import an existing deck. Make sure you have edit access to the
-                                            presentation. The deck will be synced with your Google Slides presentation.
-                                        </DialogDescription>
-                                    </DialogHeader>
-                                    <Input
-                                        placeholder="https://docs.google.com/presentation/d/... or presentation ID"
-                                        value={input}
-                                        onChange={(event) => setInput(event.target.value)}
-                                        autoFocus
-                                    />
-                                    <DialogFooter>
-                                        <DialogClose asChild>
-                                            <Button variant="outline">Cancel</Button>
-                                        </DialogClose>
-                                        <Button
-                                            onClick={async () => {
-                                                const presentationId = extractGoogleSlidesID(input)
-                                                if (!presentationId) {
-                                                    alert('Invalid Google Slides URL or ID. Please provide a valid Google Slides presentation URL or ID.')
+            <div className="sticky top-0 bg-white">
+                <TopBar className="justify-between">
+                    <h1 className="text-2xl font-semibold">Easy Deck</h1>
+                    <div className="flex gap-3">
+                        <Dialog onOpenChange={() => setInput('')}>
+                            <DialogTrigger disabled={!isAuthenticated} asChild>
+                                <Button variant="outline">
+                                    <Download className="size-4" />
+                                    Import
+                                </Button>
+                            </DialogTrigger>
+                            <DialogContent>
+                                <DialogHeader>
+                                    <DialogTitle>Import Existing Google Slides Deck</DialogTitle>
+                                    <DialogDescription>
+                                        Paste a Google Slides URL or presentation ID to import an existing deck. Make sure you have edit access to the
+                                        presentation. The deck will be synced with your Google Slides presentation.
+                                    </DialogDescription>
+                                </DialogHeader>
+                                <Input
+                                    placeholder="https://docs.google.com/presentation/d/... or presentation ID"
+                                    value={input}
+                                    onChange={(event) => setInput(event.target.value)}
+                                    autoFocus
+                                />
+                                <DialogFooter>
+                                    <DialogClose asChild>
+                                        <Button variant="outline">Cancel</Button>
+                                    </DialogClose>
+                                    <Button
+                                        onClick={async () => {
+                                            const presentationId = extractGoogleSlidesID(input)
+                                            if (!presentationId) {
+                                                alert('Invalid Google Slides URL or ID. Please provide a valid Google Slides presentation URL or ID.')
+                                                return
+                                            }
+                                            try {
+                                                if (!getToken || getToken.expiresAt < Date.now()) {
+                                                    initiateGoogleAuth()
                                                     return
                                                 }
-                                                try {
-                                                    if (!getToken || getToken.expiresAt < Date.now()) {
-                                                        initiateGoogleAuth()
-                                                        return
-                                                    }
-                                                    const presentation = await linkPresentation({ presentationId })
-                                                    const deckId = await createDeck({
-                                                        name: presentation.title || 'Imported Deck',
-                                                        googleSlidesId: presentationId
-                                                    })
-                                                    await syncSlides({ deckId, presentationId })
-                                                    navigate({ to: '/dashboard/$id', params: { id: deckId } })
-                                                } catch (error: unknown) {
-                                                    const msg = error instanceof Error ? error.message : 'Unknown error'
-                                                    alert(`Failed to import deck: ${msg}`)
-                                                }
-                                            }}
-                                            disabled={!input.trim()}
-                                        >
-                                            Import
-                                        </Button>
-                                    </DialogFooter>
-                                </DialogContent>
-                            </Dialog>
-                            <Dialog onOpenChange={() => setInput('')}>
-                                <DialogTrigger disabled={!isAuthenticated} asChild>
-                                    <Button>
-                                        <Plus className="size-4" />
-                                        New Deck
+                                                const presentation = await linkPresentation({ presentationId })
+                                                const deckId = await createDeck({
+                                                    name: presentation.title || 'Imported Deck',
+                                                    googleSlidesId: presentationId
+                                                })
+                                                await syncSlides({ deckId, presentationId })
+                                                navigate({ to: '/dashboard/$id', params: { id: deckId } })
+                                            } catch (error: unknown) {
+                                                const msg = error instanceof Error ? error.message : 'Unknown error'
+                                                alert(`Failed to import deck: ${msg}`)
+                                            }
+                                        }}
+                                        disabled={!input.trim()}
+                                    >
+                                        Import
                                     </Button>
-                                </DialogTrigger>
-                                <DialogContent>
-                                    <DialogHeader>
-                                        <DialogTitle>Create New Deck</DialogTitle>
-                                        <DialogDescription>Enter a title for your new presentation deck</DialogDescription>
-                                    </DialogHeader>
-                                    <Input placeholder="Deck title..." value={input} onChange={(event) => setInput(event.target.value)} autoFocus />
-                                    <DialogFooter>
-                                        <DialogClose asChild>
-                                            <Button variant="outline">Cancel</Button>
-                                        </DialogClose>
-                                        <DialogClose asChild>
-                                            <Button disabled={!input.trim()} onClick={() => createDeck({ name: input.trim() })}>
-                                                Create
-                                            </Button>
-                                        </DialogClose>
-                                    </DialogFooter>
-                                </DialogContent>
-                            </Dialog>
-                        </div>
-                        <div className="size-7 rounded-full bg-gray-200">
-                            <UserButton />
-                        </div>
+                                </DialogFooter>
+                            </DialogContent>
+                        </Dialog>
+                        <Dialog onOpenChange={() => setInput('')}>
+                            <DialogTrigger disabled={!isAuthenticated} asChild>
+                                <Button>
+                                    <Plus className="size-4" />
+                                    New Deck
+                                </Button>
+                            </DialogTrigger>
+                            <DialogContent>
+                                <DialogHeader>
+                                    <DialogTitle>Create New Deck</DialogTitle>
+                                    <DialogDescription>Enter a title for your new presentation deck</DialogDescription>
+                                </DialogHeader>
+                                <Input placeholder="Deck title..." value={input} onChange={(event) => setInput(event.target.value)} autoFocus />
+                                <DialogFooter>
+                                    <DialogClose asChild>
+                                        <Button variant="outline">Cancel</Button>
+                                    </DialogClose>
+                                    <DialogClose asChild>
+                                        <Button disabled={!input.trim()} onClick={() => createDeck({ name: input.trim() })}>
+                                            Create
+                                        </Button>
+                                    </DialogClose>
+                                </DialogFooter>
+                            </DialogContent>
+                        </Dialog>
                     </div>
-                </div>
+                </TopBar>
             </div>
             <div className="p-6">
                 <Decks />
