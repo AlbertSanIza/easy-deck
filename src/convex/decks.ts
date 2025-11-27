@@ -39,7 +39,7 @@ export const create = mutation({
     handler: async (ctx, { name, googleSlidesId }) => {
         const identity = await ctx.auth.getUserIdentity()
         if (identity === null) {
-            return null
+            throw new Error('Not authenticated')
         }
         const now = Date.now()
         return await ctx.db.insert('decks', { name, googleSlidesId, userId: identity.subject, updatedAt: now })
@@ -56,7 +56,7 @@ export const update = mutation({
     handler: async (ctx, { deckId, title, description, googleSlidesId }) => {
         const identity = await ctx.auth.getUserIdentity()
         if (identity === null) {
-            return null
+            throw new Error('Not authenticated')
         }
         const deck = await ctx.db.get(deckId)
         if (!deck || deck.userId !== identity.subject) {
@@ -76,7 +76,7 @@ export const remove = mutation({
     handler: async (ctx, { deckId }) => {
         const identity = await ctx.auth.getUserIdentity()
         if (identity === null) {
-            return null
+            throw new Error('Not authenticated')
         }
         const deck = await ctx.db.get(deckId)
         if (!deck || deck.userId !== identity.subject) {
