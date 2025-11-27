@@ -130,7 +130,7 @@ function Decks() {
     return (
         <div className="mx-auto max-w-7xl">
             <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
-                {decks === undefined && Array.from({ length: 2 }).map((_, i) => <Skeleton key={i} className="h-18.5 shadow-sm" />)}
+                {decks === undefined && Array.from({ length: 2 }).map((_, i) => <Skeleton key={i} className="h-18.5 rounded-xl shadow-sm" />)}
                 {decks?.length === 0 && <div className="text-center text-muted-foreground">No decks found. Create or import a deck to get started.</div>}
                 {decks?.map((deck: { _id: string; name: string; description?: string; googleSlidesId?: string }) => (
                     <Link to="/dashboard/$id" key={deck._id} params={{ id: deck._id }}>
