@@ -4,10 +4,10 @@
         "chakrounanas.turbo-console-log",
         "dbaeumer.vscode-eslint",
         "eamodio.gitlens",
-        "esbenp.prettier-vscode",
         "github.copilot-chat",
         "github.vscode-github-actions",
         "pkief.material-icon-theme",
+        "prettier.prettier-vscode",
         "streetsidesoftware.code-spell-checker",
         "yoavbls.pretty-ts-errors"
     ]
