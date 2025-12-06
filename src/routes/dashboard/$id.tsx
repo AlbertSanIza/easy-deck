@@ -1,4 +1,4 @@
-import { createFileRoute } from '@tanstack/react-router'
+import { createFileRoute, Link } from '@tanstack/react-router'
 import { useConvexAuth, useQuery } from 'convex/react'
 import { RefreshCwIcon } from 'lucide-react'
 
@@ -21,8 +21,13 @@ function RouteComponent() {
     return (
         <div className="fixed inset-0 grid grid-rows-[auto_1fr]">
             <TopBar className="justify-between">
-                <h1 className="text-2xl font-semibold">{deck?.name || 'Loading...'}</h1>
-                <Button>
+                <div className="flex items-center gap-4">
+                    <Button variant="outline" asChild>
+                        <Link to="/dashboard">Home</Link>
+                    </Button>
+                    <h1 className="text-2xl font-semibold">{deck?.name}</h1>
+                </div>
+                <Button disabled={!deck?.googleSlidesId}>
                     <RefreshCwIcon />
                     Sync
                 </Button>
